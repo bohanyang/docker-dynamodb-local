@@ -6,11 +6,14 @@ RUN set -ex; \
     \
     SU_EXEC_VERSION=212b75144bbc06722fbd7661f651390dc47a43d1; \
     \
-    buildDeps='curl gcc libc6-dev make'; \
+    buildDeps='gcc libc6-dev make'; \
     apt-get update; \
-    apt-get install -y --no-install-recommends $buildDeps; \
+    apt-get install -y --no-install-recommends \
+        wget \
+        $buildDeps \
+    ; \
     \
-    curl -fsSL -o su-exec.tar.gz "https://github.com/ncopa/su-exec/archive/$SU_EXEC_VERSION.tar.gz"; \
+    wget -O su-exec.tar.gz "https://github.com/ncopa/su-exec/archive/$SU_EXEC_VERSION.tar.gz"; \
     tar -xf su-exec.tar.gz; \
     rm su-exec.tar.gz; \
     \
@@ -23,7 +26,11 @@ RUN set -ex; \
 
 WORKDIR /home/dynamodblocal
 
-ADD --chown=dynamodblocal:dynamodblocal https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz .
+RUN set -ex; \
+    \
+    wget https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz; \
+    su-exec dynamodblocal:dynamodblocal tar -xf dynamodb_local_latest.tar.gz; \
+    rm dynamodb_local_latest.tar.gz
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
