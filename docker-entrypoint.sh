@@ -6,4 +6,4 @@ mkdir -p /var/data/dynamodb
 
 chown -R dynamodb:dynamodb /var/data/dynamodb
 
-su-exec dynamodb:dynamodb authbind --deep "$@"
+su-exec dynamodb authbind --deep "$@"
