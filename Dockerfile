@@ -11,7 +11,13 @@ RUN set -ex; \
     \
     buildDeps='curl gcc libc6-dev make'; \
     apt-get update; \
-    apt-get install -y --no-install-recommends $buildDeps; \
+    apt-get install -y --no-install-recommends authbind $buildDeps; \
+    \
+    mkdir -p /etc/authbind/byport; \
+    touch /etc/authbind/byport/80; \
+    chown root:web /etc/authbind/byport/80; \
+    chmod u+x,g+x /etc/authbind/byport/80; \
+    \
     curl -fsS "https://github.com/ncopa/su-exec/archive/$SU_EXEC_VERSION.tar.gz" | tar xzf -; \
     make -C "su-exec-$SU_EXEC_VERSION"; \
     mv "su-exec-$SU_EXEC_VERSION/su-exec" /usr/local/bin; \
@@ -27,4 +33,4 @@ RUN su-exec dynamodb:dynamodb sh -c 'curl -fsS https://s3-us-west-2.amazonaws.co
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-CMD ["java", "-jar", "DynamoDBLocal.jar", "-dbPath", "/var/data/dynamodb"]
+CMD ["java", "-jar", "DynamoDBLocal.jar", "-dbPath", "/var/data/dynamodb", "-optimizeDbBeforeStartup", "-port", "80"]
