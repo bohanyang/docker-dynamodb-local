@@ -18,7 +18,7 @@ RUN set -ex; \
     chown root:web /etc/authbind/byport/80; \
     chmod u+x,g+x /etc/authbind/byport/80; \
     \
-    curl -fsS "https://github.com/ncopa/su-exec/archive/$SU_EXEC_VERSION.tar.gz" | tar xzf -; \
+    curl -fsSL "https://github.com/ncopa/su-exec/archive/$SU_EXEC_VERSION.tar.gz" | tar xzf -; \
     make -C "su-exec-$SU_EXEC_VERSION"; \
     mv "su-exec-$SU_EXEC_VERSION/su-exec" /usr/local/bin; \
     rm -r "su-exec-$SU_EXEC_VERSION"; \
