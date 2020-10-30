@@ -3,7 +3,7 @@ FROM adoptopenjdk:11-jre-openj9
 RUN groupadd -r dynamodb \
  && useradd -r -m -g dynamodb dynamodb \
  && groupadd -r web \
- && usermod -a -G web
+ && usermod -a -G web dynamodb
 
 RUN set -ex; \
     \
