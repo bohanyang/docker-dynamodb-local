@@ -1,9 +1,9 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 set -e
 
-mkdir -p /var/data/dynamodb-local
+mkdir -p /var/data/dynamodb
 
-chown -R dynamodblocal:dynamodblocal /var/data/dynamodb-local
+chown -R dynamodb:dynamodb /var/data/dynamodb
 
-su-exec dynamodblocal:dynamodblocal "$@"
+su-exec dynamodb:dynamodb authbind --deep "$@"
