@@ -1,4 +1,4 @@
-FROM openjdk:11.0.5-jre-slim-buster
+FROM adoptopenjdk:11-jre-openj9
 
 RUN groupadd -r dynamodblocal && useradd -r -m -g dynamodblocal dynamodblocal
 
